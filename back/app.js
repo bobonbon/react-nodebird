@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use(cors({
-    origin: [true, 'http://nodebird.com'],
+    origin: [true, 'http://bobonbon.xyz'],
     credentials: true,
 }));
 app.use('/', express.static(path.join(__dirname, 'uploads')));
