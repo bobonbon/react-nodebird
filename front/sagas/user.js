@@ -227,6 +227,7 @@ function* signUp(action) {
             //data: result.data,
         });
     } catch (err) {
+        console.error(err);
         yield put({
             type: SIGN_UP_FAILURE,
             error: err.response.data,
