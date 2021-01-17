@@ -8,6 +8,9 @@ const morgan = require('morgan');
 const path = require('path');
 const hpp = require('hpp');
 const helmet = require('helmet');
+const session = require('express-session');
+const connectRedis = require('connect-redis');
+const RedisStore = connectRedis(session);
 
 const postRouter = require('./routes/post');
 const postsRouter = require('./routes/posts');
@@ -45,18 +48,19 @@ app.use('/', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(session({
-    saveUninitialized: false,
+const sess = {
     resave: false,
-    secret: process.env.COOKIE_SECRET,
+    saveUninitialized: false,
+    secret: sessionSecret,
     cookie: {
         httpOnly: true,
         secure: false,
         domain: process.env.NODE_ENV === 'production' && '.bobonbon.xyz'
     },
-}));
+    store: new RedisStore({ url: 'http://api.bobonbon.xyz', logErrors: true }),
+};
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session(sess));
 
 app.get('/', (req, res) => {
     res.send('hello express');
