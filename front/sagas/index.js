@@ -5,7 +5,7 @@ import { backUrl } from '../config/config';
 import postSaga from './post';
 import userSaga from './user';
 
-axios.defaults.baseURL = backUrl;
+axios.defaults.backUrl = backUrl;
 axios.defaults.withCredentials = true;
 /*
 take: 일회성
